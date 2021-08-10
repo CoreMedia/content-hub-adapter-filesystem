@@ -48,7 +48,7 @@ In short, for a quick development roundtrip:
 and copy `content-hub-adapter-filesystem/studio-server/target/studio-server.content-hub-adapter-filesystem-<version>.zip`
 into that directory.
 4. Start the studio server as usual, e.g. `mvn spring-boot:run`, with an additional property `-Dplugins.directory=/tmp/studio-server-plugins`
-5. Start the studio client with an additional property `-DadditionalPackagesDirs=/.../content-hub-adapter-filesystem/studio-client/target/app`
+5. Start the studio client as usual, e.g. `pnpm run start`. Now also execute `pnpm run start` in the plugin directory. 
 
 Now the plugin is running.  You won't yet notice it though, until you configure a connection 
 and restart the studio server.  
