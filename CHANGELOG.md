@@ -1,7 +1,14 @@
 Changelog
 ================================================================================
 
-1.0.0
+2.0.1
+--------------------------------------------------------------------------------
+
+### Update to latest CMS versions
+
+### Replace assembly-plugin with coremedia-plugins-maven-plugin
+
+2.0.0
 --------------------------------------------------------------------------------
 
 ### Switch from Extensions to Plugin architecture
