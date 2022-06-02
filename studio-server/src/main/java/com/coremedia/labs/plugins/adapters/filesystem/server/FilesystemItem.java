@@ -2,7 +2,10 @@ package com.coremedia.labs.plugins.adapters.filesystem.server;
 
 
 import com.coremedia.common.util.WordAbbreviator;
-import com.coremedia.contenthub.api.*;
+import com.coremedia.contenthub.api.ContentHubBlob;
+import com.coremedia.contenthub.api.ContentHubObjectId;
+import com.coremedia.contenthub.api.ContentHubType;
+import com.coremedia.contenthub.api.Item;
 import com.coremedia.contenthub.api.preview.DetailsElement;
 import com.coremedia.contenthub.api.preview.DetailsSection;
 import com.coremedia.mimetype.TikaMimeTypeService;
@@ -15,16 +18,20 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.attribute.FileOwnerAttributeView;
 import java.nio.file.attribute.UserPrincipal;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 class FilesystemItem extends FilesystemHubObject implements Item {
   private static final WordAbbreviator ABBREVIATOR = new WordAbbreviator();
-  private static final int BLOB_SIZE_LIMIT = 10000000;
   private TikaMimeTypeService tikaservice;
 
-  FilesystemItem(ContentHubContext context, FilesystemFolder parent, ContentHubObjectId id, File file) {
-    super(context, parent, id, file);
+  public static final String TYPE = "filesystem_file";
+
+  FilesystemItem(FilesystemFolder parent, ContentHubObjectId id, File file) {
+    super(parent, id, file);
     this.tikaservice = new TikaMimeTypeService();
     tikaservice.init();
   }
@@ -32,7 +39,7 @@ class FilesystemItem extends FilesystemHubObject implements Item {
   @NonNull
   @Override
   public ContentHubType getContentHubType() {
-    return new ContentHubType("filesystem_file");
+    return new ContentHubType(TYPE);
   }
 
   @NonNull
@@ -57,18 +64,20 @@ class FilesystemItem extends FilesystemHubObject implements Item {
     if (tikaservice != null) {
       String type = tikaservice.getMimeTypeForResourceName(getName());
 
-      if (type.contains("image"))
+      if (type.contains("image")) {
         return "CMPicture";
-      else if (type.contains("audio"))
+      } else if (type.contains("audio")) {
         return "CMAudio";
-      else if (type.contains("video"))
+      } else if (type.contains("video")) {
         return "CMVideo";
-      else if (type.equals("application/pdf"))
+      } else if (type.equals("application/pdf")) {
         return "CMDownload";
-      else
+      } else {
         return "CMArticle";
-    } else
+      }
+    } else {
       return "CMArticle";
+    }
   }
 
   @NonNull
@@ -109,7 +118,7 @@ class FilesystemItem extends FilesystemHubObject implements Item {
   }
   //-------------------# Helper #-------------------//
 
-  private String getOwner(File file){
+  private String getOwner(File file) {
     FileOwnerAttributeView ownerAttributeView = Files.getFileAttributeView(file.toPath(), FileOwnerAttributeView.class);
     try {
       UserPrincipal owner = ownerAttributeView.getOwner();

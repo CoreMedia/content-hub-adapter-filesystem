@@ -1,7 +1,6 @@
 package com.coremedia.labs.plugins.adapters.filesystem.server;
 
 
-import com.coremedia.contenthub.api.ContentHubContext;
 import com.coremedia.contenthub.api.ContentHubObject;
 import com.coremedia.contenthub.api.ContentHubObjectId;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -13,17 +12,14 @@ abstract class FilesystemHubObject implements ContentHubObject {
 
   private ContentHubObjectId hubId;
   private String name;
-  private ContentHubContext context;
   private FilesystemFolder parent;
   protected File file;
 
-  FilesystemHubObject(ContentHubContext context, @Nullable FilesystemFolder parent, ContentHubObjectId hubId, File file) {
+  FilesystemHubObject(@Nullable FilesystemFolder parent, ContentHubObjectId hubId, File file) {
     this.hubId = hubId;
-    this.context = context;
     this.parent = parent;
     this.name = file.getName();
     this.file = file;
-
   }
 
   @NonNull
