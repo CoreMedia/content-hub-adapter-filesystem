@@ -62,7 +62,7 @@ class FilesystemContentHubAdapter implements ContentHubAdapter, ContentHubSearch
     FilesystemFolder f = (FilesystemFolder) folder;
     //no recursive search to avoid performance issues
     File[] files = f.getFile().listFiles((dir, name) -> {
-      if (contentHubType != null) {
+      if (contentHubType != null && contentHubType.getName() != null) {
         File child = new File(dir, name);
         if (child.isDirectory() && contentHubType.getName().equals(FilesystemItem.TYPE)) {
           return false;
