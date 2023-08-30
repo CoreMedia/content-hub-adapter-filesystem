@@ -31,7 +31,7 @@ class FilesystemContentHubAdapter implements ContentHubAdapter {
     String rootPath = settings.getRootFolder();
     File file = new File(rootPath);
     this.rootFile = file;
-    this.filterNoAccess = settings.getFilterNoAccess();
+    this.filterNoAccess = settings.isFilterNoAccess();
 
     if (!file.exists()) {
       LOGGER.warn("File Connector folder '" + file.getAbsolutePath() + " does not exist, connector will be ignored.");

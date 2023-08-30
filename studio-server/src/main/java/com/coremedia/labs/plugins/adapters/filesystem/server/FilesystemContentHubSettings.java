@@ -33,5 +33,5 @@ interface FilesystemContentHubSettings {
   /**
    * @return return if non-accessable files and directories should be filtered or not
    */
-  boolean getFilterNoAccess();
+  boolean isFilterNoAccess();
 }
