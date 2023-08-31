@@ -60,12 +60,12 @@ The table below shows the initial toplevel entry for all content-hub-connector c
 After creation of the initial struct list called **connections** the next step is to create the first entry. This can be done 
 in Studio with the struct editor by pressing "add Item to ListProperty". The table below shows the entries which are common for all connectors.
 
-| Key           | Type       | Value                 | Required   |
-|---------------|------------|------------           |------------|
-| connectionId  | String      | <SOME_UNIQUE_ID>     | Yes        |
-| factoryId     | String      | <YOUR_FACTORY_ID>    | Yes        |
-| enabled       | Boolean     | true or false        | Yes        |
-| settings       | Struct     |                      | Yes        |
+| Key           | Type       | Value            | Required   |
+|---------------|------------|------------------|------------|
+| connectionId  | String      | <SOME_UNIQUE_ID> | Yes        |
+| factoryId     | String      | filesystem       | Yes        |
+| enabled       | Boolean     | true or false    | Yes        |
+| settings       | Struct     |                  | Yes        |
           
 
 #### Required configuration

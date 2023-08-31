@@ -67,6 +67,10 @@ class FilesystemContentHubAdapter implements ContentHubAdapter {
   public GetChildrenResult getChildren(@NonNull ContentHubContext context, @NonNull Folder folder, @Nullable PaginationRequest paginationRequest) {
     List<ContentHubObject> children = new ArrayList<>();
 
+    if(folder.getId().getExternalId().equals(this.connectionId)) {
+      folder = getRootFolder(context);
+    }
+
     List<File> result = ((FilesystemFolder) folder).getChildren();
     for (File entry : result) {
       ContentHubObjectId id = new ContentHubObjectId(connectionId, entry.getPath());
