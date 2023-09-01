@@ -75,7 +75,7 @@ The table below depicts all potential entries.
 
 | Key               | Type       | Value                                                    | Required   |
 |---------------    |------------|------------                                              |------------|
-| rootPath          | String     | Absolute path where the adapter starts to build the tree from             | Yes        |
+| rootFolder        | String     | Absolute path where the adapter starts to build the tree from             | Yes        |
 | filterNoAccess    | Boolean    | true or false                                            | No        |
 | displayName       | String     | Name of the root folder to display in Studio             | No         |
 
