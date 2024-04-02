@@ -1,6 +1,6 @@
 ![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo")
 
-![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2101&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
+![Min CMCC Version](https://img.shields.io/static/v1?message=2110&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
 "This badge shows the CoreMedia version(s) this project is compatible with. 
 Please read the versioning section of the project to see what other CoreMedia versions are supported and how to find them."
 )
@@ -12,12 +12,12 @@ If a project is inactive it means that the development has been discontinued and
 # Content Hub Adapter for Filesystem
 
 The **content-hub-adapter-filesystem** plugin provides access to the server's
-file system.  Configurable directories of the file system are available in
+file system. Configurable directories of the file system are available in
 additional trees in the Studio library.
 
 ## Versioning
 
-The master branch of this project is suitable for CoreMedia versions since 2101.
+The main branch of this project is suitable for CoreMedia versions since 2110.
 It is based on the plugin architecture.
 
 For older CoreMedia versions there are branches with corresponding names.
