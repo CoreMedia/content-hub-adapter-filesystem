@@ -27,6 +27,7 @@ jobs:
           server-id: coremedia.external.releases
           server-username: PLUGINS_NEXUS_USER
           server-password: PLUGINS_NEXUS_PASSWORD
+          cache: 'maven'
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v3
