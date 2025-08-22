@@ -19,10 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '11'
+          java-version: '17'
           distribution: 'corretto'
           server-id: coremedia.external.releases
           server-username: PLUGINS_NEXUS_USER
@@ -32,12 +32,12 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v3
         with:
-          version: 9
+          version: 10
 
       - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
           cache-dependency-path: "studio-client/pnpm-lock.yaml"
 
@@ -54,6 +54,13 @@ jobs:
         run: |
           git config --global user.name 'coremedia-ci'
           git config --global user.email 'coremedia-ci@coremedia.com'
+
+      - name: Login to OCI registry
+        uses: docker/login-action@v3
+        with:
+          registry: container-registry.coremedia.com
+          username: ${{ secrets.NEXUS_GITHUB_ACTIONS_IMAGE_RELEASES_USERNAME }}
+          password: ${{ secrets.NEXUS_GITHUB_ACTIONS_IMAGE_RELEASES_PASSWORD }}
 
       - name: Install PNPM Dependencies
         working-directory: studio-client
@@ -94,68 +101,10 @@ jobs:
         working-directory: studio-client
         run: |
           pnpm -r build
-          pnpm -r package
+          pnpm -r upload-plugin --repositoryPrefix container-registry.coremedia.com/plugins/content-hub-adapter-filesystem
 
       - name: Build with Maven
         env:
           PLUGINS_NEXUS_USER: ${{ secrets.PLUGINS_NEXUS_USER }}
           PLUGINS_NEXUS_PASSWORD: ${{ secrets.PLUGINS_NEXUS_PASSWORD }}
-        run: mvn --batch-mode --update-snapshots verify
-
-      - name: Create Bundle
-        env:
-          VERSION: ${{ steps.output-version.outputs.version }}
-          DESCRIPTOR_TEMPLATE: 'content-hub-adapter-filesystem.json'
-          CREATE_RELEASE: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
-          RELEASE_TAG: ${{ steps.set-release-version.outputs.tag }}
-          URL_PATTERN: 'https://github.com/${GITHUB_REPOSITORY}/releases/download/${RELEASE_TAG}/${REL_FILE}'
-        run: |
-          mkdir -p target/bundle
-          RESULT="$(cat ${DESCRIPTOR_TEMPLATE})"
-          APPS=$(cat ${DESCRIPTOR_TEMPLATE} | jq -r '.plugins | keys[]')
-          for APP in ${APPS}; do
-            FILE_TEMPLATE=$(cat ${DESCRIPTOR_TEMPLATE} | jq -r --arg APP "${APP}" '.plugins[$APP].file')
-            FILE=$(eval echo ${FILE_TEMPLATE})
-            REL_FILE=$(echo "${FILE}" | sed 's#.*/##g')
-            cp "${FILE}" target/bundle
-            if [ "${CREATE_RELEASE}" = true ]; then
-              URL=$(eval echo ${URL_PATTERN})
-              RESULT="$(echo ${RESULT} | jq -r --arg APP "${APP}" --arg URL "${URL}" '.plugins[$APP] = {"url": $URL}')"
-            else
-              RESULT="$(echo ${RESULT} | jq -r --arg APP "${APP}" --arg REL_FILE "${REL_FILE}" '.plugins[$APP] = {"file": $REL_FILE}')"
-            fi
-          done
-          echo "${RESULT}" > "target/bundle/$(echo ${DESCRIPTOR_TEMPLATE} | sed 's#.*/##g' | cut -d '.' -f1)-${VERSION}.json"
-
-      - name: Set Next Snapshot Version
-        id: set-snapshot-version
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-        env:
-          PLUGINS_NEXUS_USER: ${{ secrets.PLUGINS_NEXUS_USER }}
-          PLUGINS_NEXUS_PASSWORD: ${{ secrets.PLUGINS_NEXUS_PASSWORD }}
-        run: |
-          mvn --batch-mode org.codehaus.mojo:versions-maven-plugin:2.8.1:set -DnextSnapshot -DartifactId='*'
-          snapshot_version=$(mvn --batch-mode org.apache.maven.plugins:maven-help-plugin:3.2.0:evaluate -Dexpression=project.version -q -DforceStdout)
-
-          cd studio-client
-          pnpm set-version ${snapshot_version}
-          cd ..
-
-          git add .
-          git commit -m "set next snapshot version"
-          git push
-          echo "version=${snapshot_version}" >> $GITHUB_OUTPUT
-
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: content-hub-adapter-filesystem-${{ steps.output-version.outputs.version }}
-          path: target/bundle
-          if-no-files-found: error
-
-      - name: Upload Release Artifacts
-        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.set-release-version.outputs.version }}
-          files: target/bundle/*
+        run: mvn --batch-mode --update-snapshots deploy -DrepositoryPrefix=container-registry.coremedia.com/plugins/content-hub-adapter-filesystem

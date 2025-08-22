@@ -14,10 +14,11 @@
     "@jangaroo/runtime": "^1.5.0"
   },
   "devDependencies": {
-    "@jangaroo/build": "^1.5.0",
-    "@jangaroo/core": "^1.5.0",
-    "@jangaroo/publish": "^1.5.0",
-    "@jangaroo/run": "^1.5.0",
+    "@coremedia/plugin-manager": "^2.0.0",
+    "@jangaroo/build": "^3.3.1",
+    "@jangaroo/core": "^3.3.1",
+    "@jangaroo/publish": "^3.3.1",
+    "@jangaroo/run": "^3.3.1",
     "eslint": "^8.57.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
@@ -29,8 +30,7 @@
     "build": "jangaroo build",
     "watch": "jangaroo watch",
     "start": "jangaroo run",
-    "package": "jangaroo package",
-    "publish": "jangaroo publish",
+    "upload-plugin": "upload-plugin ./dist",
     "lint": "eslint --fix \"src/**/*.ts\""
   },
   "exports": {
