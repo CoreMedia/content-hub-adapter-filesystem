@@ -12,8 +12,8 @@
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cm.studio-server.core.version>2110.2</cm.studio-server.core.version>
-    <cm.common.core.version>2110.2</cm.common.core.version>
+    <cm.studio-server.core.version>2506.0.0</cm.studio-server.core.version>
+    <cm.common.core.version>2506.0.0</cm.common.core.version>
   </properties>
 
   <repositories>
@@ -62,10 +62,12 @@
   </dependencyManagement>
 
   <dependencies>
+
     <dependency>
-      <groupId>com.sun.activation</groupId>
-      <artifactId>jakarta.activation</artifactId>
-      <version>1.2.2</version>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>2.1.2</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

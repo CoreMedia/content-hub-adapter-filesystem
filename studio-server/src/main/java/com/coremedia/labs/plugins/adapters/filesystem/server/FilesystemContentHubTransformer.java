@@ -7,13 +7,18 @@ import com.coremedia.mimetype.TikaMimeTypeService;
 import com.coremedia.util.TempFileFactory;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import jakarta.activation.MimeTypeParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.util.HtmlUtils;
 
-import javax.activation.MimeTypeParseException;
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 import java.util.*;
 
 class FilesystemContentHubTransformer implements ContentHubTransformer {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
   private TikaMimeTypeService tikaMimeTypeService;
 
@@ -88,7 +93,7 @@ class FilesystemContentHubTransformer implements ContentHubTransformer {
       result.put("data", blob);
       return result;
     } catch (MimeTypeParseException e) {
-      e.printStackTrace();
+      LOG.error("Unable to get media properties: {}", e.getMessage());
     }
     return null;
   }
