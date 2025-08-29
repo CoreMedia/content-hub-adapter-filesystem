@@ -2,7 +2,7 @@
   "name": "@coremedia-labs/studio-client.main.content-hub-adapter-filesystem",
   "author": "CoreMedia GmbH",
   "license": "CoreMedia Open Source License",
-  "version": "3.0.0-SNAPSHOT",
+  "version": "3.0.0",
   "private": true,
   "dependencies": {
     "@coremedia/studio-client.core-icons": "^2506.0.0",
