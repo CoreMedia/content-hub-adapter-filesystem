@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.3
+## 3.0.0
 - Update GitHub Action
 - Update studio-client dependencies
 - Compatible CoreMedia Content Cloud version: `2506.0.0`
