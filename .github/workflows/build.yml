@@ -111,4 +111,4 @@ jobs:
         env:
           PLUGINS_NEXUS_USER: ${{ secrets.PLUGINS_NEXUS_USER }}
           PLUGINS_NEXUS_PASSWORD: ${{ secrets.PLUGINS_NEXUS_PASSWORD }}
-        run: mvn --batch-mode --update-snapshots deploy -DrepositoryPrefix=${{ env.REPOSITORY_PREFIX }}
+        run: mvn --batch-mode --update-snapshots deploy -Dcmplugins.repositoryPrefix=${{ env.REPOSITORY_PREFIX }}
