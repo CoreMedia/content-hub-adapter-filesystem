@@ -58,7 +58,7 @@
         <plugin>
           <groupId>com.coremedia.maven</groupId>
           <artifactId>coremedia-plugins-maven-plugin</artifactId>
-          <version>4.0.0</version>
+          <version>4.0.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
